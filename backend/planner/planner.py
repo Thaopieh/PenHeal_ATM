@@ -1,14 +1,15 @@
 import openai
-from executor import executor
-from summarizer import summarize
+import json
+from executor.executor import Executor
+from summarizer.summarize import Summarizer
 class Planner:
     def __init__(self, target_ip: str, api_key: str):
         self.target_ip = target_ip
         self.api_key = api_key
         self.attack_plan = []
         self.completed_tasks = []
-        self.executor = executor(self.api_key)
-        self.summarizer = summarize(self.api_key)
+        self.executor = Executor(self.api_key)
+        self.summarizer = Summarizer(self.api_key)
         self.exploited_vulnerabilities = []  # Danh sách lỗ hổng đã khai thác
 
     def generate_initial_tasks(self):
@@ -63,6 +64,7 @@ class Planner:
             self.attack_plan.extend(response)
 
     def _generate_attack_plan(self, prompt: str):
+        openai.api_key=self.api_key
         """Gửi prompt đến API GPT để lấy danh sách các nhiệm vụ tiếp theo."""
         headers = {"Authorization": f"Bearer {self.api_key}"}
         response = openai.ChatCompletion.create(
@@ -87,3 +89,13 @@ class Planner:
             ]
             return next_tasks
         return []
+    def save_results_to_json(self, filename="attack_data.json"):
+        """Lưu trạng thái của kế hoạch tấn công và các lỗ hổng đã khai thác vào file JSON."""
+        results = {
+            "target_ip": self.target_ip,
+            "attack_plan": self.attack_plan,
+            "completed_tasks": self.completed_tasks,
+            "exploited_vulnerabilities": self.exploited_vulnerabirunlities
+        }
+        with open(filename, "w") as f:
+            json.dump(results, f, indent=4)

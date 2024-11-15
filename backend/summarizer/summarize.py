@@ -24,7 +24,7 @@ class Summarizer:
             "Please provide a concise summary of this result. "
             "Focus on key findings, vulnerabilities, and any relevant details that could aid in decision-making."
         )
-
+        openai.api_key=self.api_key
         # Gọi API của OpenAI để tạo tóm tắt
         response = openai.ChatCompletion.create(
             model="gpt-4",

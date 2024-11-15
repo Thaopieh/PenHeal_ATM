@@ -26,7 +26,7 @@ class Extractor:
             f"Attack History:\n{attack_history}\n\n"
             "Please provide the extracted vulnerability information in the specified format."
         )
-
+        openai.api_key=self.api_key
         # Gọi API của OpenAI để trích xuất thông tin
         response = openai.ChatCompletion.create(
             model="gpt-4",

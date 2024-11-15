@@ -16,6 +16,7 @@ class Executor:
         # Tạo prompt từ mô tả nhiệm vụ của Planner
         prompt = f"{system_prompt}\nTask: {task_description}"
         
+        openai.api_key=self.api_key
         # Gọi API của ChatGPT để tạo lệnh
         response = openai.ChatCompletion.create(
             model="gpt-4",
