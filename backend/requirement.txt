@@ -1,0 +1,6 @@
+openai
+requests
+docker
+nmap
+scapy
+python-dotenv
